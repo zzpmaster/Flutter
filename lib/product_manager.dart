@@ -21,7 +21,11 @@ class _ProductManagerState extends State<ProductManager> {
   @override
   void initState() {
     super.initState();
-    _products.add(widget.startingProduct);
+    // 初始化数据 如果为null，就不像数组中添加
+    // Rendering Content Conditionally 有条件的渲染
+    if (widget.startingProduct != null) {
+      _products.add(widget.startingProduct);
+    }
   }
 
   void _addProduct(String product) {
@@ -38,7 +42,10 @@ class _ProductManagerState extends State<ProductManager> {
           margin: EdgeInsets.all(10.0),
           child: ProductControl(_addProduct),
         ),
-        Products(_products)
+        // expanded 会将包含的UI扩展到屏幕的剩余空间
+        Expanded(
+          child: Products(_products),
+        )
       ],
     );
   }
