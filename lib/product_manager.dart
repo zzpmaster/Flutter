@@ -4,7 +4,7 @@ import './products.dart';
 import './product_control.dart';
 
 class ProductManager extends StatefulWidget {
-  final String startingProduct;
+  final Map<String, String> startingProduct;
 
   // named 参数。在调用时，需要指定名字
   ProductManager({this.startingProduct});
@@ -16,7 +16,7 @@ class ProductManager extends StatefulWidget {
 }
 
 class _ProductManagerState extends State<ProductManager> {
-  List<String> _products = [];
+  List<Map<String, String>> _products = [];
 
   @override
   void initState() {
@@ -28,9 +28,15 @@ class _ProductManagerState extends State<ProductManager> {
     }
   }
 
-  void _addProduct(String product) {
+  void _addProduct(Map<String, String> product) {
     setState(() {
       _products.add(product);
+    });
+  }
+
+  void _deleteProduct(int index) {
+    setState(() {
+      _products.removeAt(index);
     });
   }
 
@@ -44,7 +50,7 @@ class _ProductManagerState extends State<ProductManager> {
         ),
         // expanded 会将包含的UI扩展到屏幕的剩余空间
         Expanded(
-          child: Products(_products),
+          child: Products(_products, deleteProduct: _deleteProduct),
         )
       ],
     );

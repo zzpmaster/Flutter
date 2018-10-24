@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 
-import './product_manager.dart';
+import './pages/auth.dart';
 
 void main() {
   // 可以debug查看UI控件的大小
@@ -14,14 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // this is core root widget.
     return MaterialApp(
-      // debugShowMaterialGrid: true, 可以看到像素点
-      theme: ThemeData(primarySwatch: Colors.pink),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('EasyList'),
+        // debugShowMaterialGrid: true, 可以看到像素点
+        theme: ThemeData(
+          primarySwatch: Colors.pink,
         ),
-        body: ProductManager(),
-      ),
-    );
+        home: AuthPage());
   }
 }
