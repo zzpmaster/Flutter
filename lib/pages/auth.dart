@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './home.dart';
+import './products_admin.dart';
 
 class AuthPage extends StatelessWidget {
   @override
@@ -12,8 +13,9 @@ class AuthPage extends StatelessWidget {
         child: Text('LOGIN'),
         onPressed: () {
           // 替换当前的路由
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+          // Navigator.pushReplacement(context,
+          //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+          Navigator.pushReplacementNamed(context, '/');
         },
       )),
     );

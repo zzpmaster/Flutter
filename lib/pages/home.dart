@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../product_manager.dart';
-import './products_admin.dart';
 
 /// adding Multiple pages
 class HomePage extends StatelessWidget {
+  final List<Map<String, String>> products;
+  final Function addProduct;
+  final Function deleteProduct;
+
+  HomePage(this.products, this.addProduct, this.deleteProduct);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,17 +25,19 @@ class HomePage extends StatelessWidget {
           ListTile(
               title: Text('Manage Products'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => ProductsAdmin()));
+                // 全局路由
+                Navigator.pushReplacementNamed(context, '/admin');
               })
         ],
       )),
       appBar: AppBar(
         title: Text('EasyList'),
       ),
-      body: ProductManager(),
+      body: ProductManager(
+        addProduct: addProduct,
+        deleteProduct: deleteProduct,
+        products: products,
+      ),
     );
   }
 }
