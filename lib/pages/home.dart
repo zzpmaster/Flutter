@@ -4,11 +4,9 @@ import '../product_manager.dart';
 
 /// adding Multiple pages
 class HomePage extends StatelessWidget {
-  final List<Map<String, String>> products;
-  final Function addProduct;
-  final Function deleteProduct;
+  final List<Map<String, dynamic>> products;
 
-  HomePage(this.products, this.addProduct, this.deleteProduct);
+  HomePage(this.products);
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +32,6 @@ class HomePage extends StatelessWidget {
         title: Text('EasyList'),
       ),
       body: ProductManager(
-        addProduct: addProduct,
-        deleteProduct: deleteProduct,
         products: products,
       ),
     );

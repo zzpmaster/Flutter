@@ -29,24 +29,21 @@ import './product_control.dart';
 //   }
 class ProductManager extends StatelessWidget {
 
-  final List<Map<String, String>> products;
+  final List<Map<String, dynamic>> products;
 
-  final Function addProduct;
-  final Function deleteProduct;
-
-  ProductManager({this.products, this.addProduct, this.deleteProduct});
+  ProductManager({this.products});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.all(10.0),
-          child: ProductControl(addProduct),
-        ),
+        // Container(
+        //   margin: EdgeInsets.all(10.0),
+        //   child: ProductControl(addProduct),
+        // ),
         // expanded 会将包含的UI扩展到屏幕的剩余空间
         Expanded(
-          child: Products(products, deleteProduct: deleteProduct),
+          child: Products(products),
         )
       ],
     );

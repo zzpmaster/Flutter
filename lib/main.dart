@@ -21,9 +21,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Map<String, String>> _products = [];
+  List<Map<String, dynamic>> _products = [];
 
-  void _addProduct(Map<String, String> product) {
+  // dynamic 混合值
+  void _addProduct(Map<String, dynamic> product) {
     setState(() {
       _products.add(product);
     });
@@ -48,9 +49,10 @@ class _MyAppState extends State<MyApp> {
       // 全局路由
       routes: {
         // '/'与home: AuthPage(), 不能一起使用
-        '/': (BuildContext context) =>
-            HomePage(_products, _addProduct, _deleteProduct),
-        '/admin': (BuildContext context) => ProductsAdmin()
+        '/': (BuildContext context) => AuthPage(),
+        'products': (BuildContext context) => HomePage(_products),
+        '/admin': (BuildContext context) => ProductsAdmin(
+            addProduct: _addProduct, deleteProduct: _deleteProduct)
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
@@ -69,8 +71,7 @@ class _MyAppState extends State<MyApp> {
       },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-            builder: (BuildContext context) =>
-                HomePage(_products, _addProduct, _deleteProduct));
+            builder: (BuildContext context) => HomePage(_products));
       },
     );
   }

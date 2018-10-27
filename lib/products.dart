@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import './pages/product.dart';
 
 class Products extends StatelessWidget {
-  final List<Map<String, String>> products;
-  final Function deleteProduct;
+  final List<Map<String, dynamic>> products;
 
   // 可选参数, 默认是需要添加const
   // 如果不传递值，那么之后将无法修改products
   // Products([this.products = const []]);
-  Products(this.products, {this.deleteProduct});
+  Products(this.products);
 
   Widget _buildProductItem(BuildContext context, int index) {
     return Column(
@@ -25,11 +24,11 @@ class Products extends StatelessWidget {
               // 68. push a page
               onPressed: () => Navigator.pushNamed<bool>(
                           context, '/product/' + index.toString())
-                      .then((bool value) {
-                    if (value) {
-                      deleteProduct(index);
-                    }
-                  }),
+                  //     .then((bool value) {
+                  //   if (value) {
+                  //     deleteProduct(index);
+                  //   }
+                  // }),
             )
           ],
         )
