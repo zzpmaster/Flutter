@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../product_manager.dart';
+import '../widgets/products/products.dart';
 
 /// adding Multiple pages
 class HomePage extends StatelessWidget {
@@ -21,19 +21,24 @@ class HomePage extends StatelessWidget {
             title: Text('Choose'),
           ),
           ListTile(
+              leading: Icon(Icons.edit),
               title: Text('Manage Products'),
               onTap: () {
                 // 全局路由
                 Navigator.pushReplacementNamed(context, '/admin');
-              })
+              }),
         ],
       )),
       appBar: AppBar(
         title: Text('EasyList'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {},
+          )
+        ],
       ),
-      body: ProductManager(
-        products: products,
-      ),
+      body: Products(products),
     );
   }
 }

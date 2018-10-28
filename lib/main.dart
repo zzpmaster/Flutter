@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import './pages/auth.dart';
 import './pages/products_admin.dart';
 import './pages/home.dart';
-import './products.dart';
 
 void main() {
   // 可以debug查看UI控件的大小
@@ -42,7 +41,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       // debugShowMaterialGrid: true, 可以看到像素点
       theme: ThemeData(
+        // 夜晚百白天模式
+        brightness: Brightness.light,
         primarySwatch: Colors.pink,
+        fontFamily: 'Oswald'
       ),
       // home: AuthPage(),
       // add named routes
@@ -65,7 +67,10 @@ class _MyAppState extends State<MyApp> {
               builder: (BuildContext context) =>
                   // Passing Data Around and pushing the page
                   ProductPage(
-                      _products[index]['title'], _products[index]['image']));
+                      _products[index]['title'],
+                      _products[index]['image'],
+                      _products[index]['price'],
+                      _products[index]['description']));
         }
         return null;
       },

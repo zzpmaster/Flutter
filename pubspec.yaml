@@ -21,3 +21,8 @@ flutter:
     iosBundleIdentifier: com.example.firstApp
   assets:
     - assets/
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: assets/Oswald-Bold.ttf
+          weight: 700

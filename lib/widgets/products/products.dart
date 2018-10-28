@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './pages/product.dart';
+import './product_card_widget.dart';
 
 class Products extends StatelessWidget {
   final List<Map<String, dynamic>> products;
@@ -11,29 +11,7 @@ class Products extends StatelessWidget {
   Products(this.products);
 
   Widget _buildProductItem(BuildContext context, int index) {
-    return Column(
-      children: <Widget>[
-        Image.asset(products[index]['image']),
-        Text(products[index]['title']),
-        // adding buttons
-        ButtonBar(
-          alignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FlatButton(
-              child: Text('Details'),
-              // 68. push a page
-              onPressed: () => Navigator.pushNamed<bool>(
-                          context, '/product/' + index.toString())
-                  //     .then((bool value) {
-                  //   if (value) {
-                  //     deleteProduct(index);
-                  //   }
-                  // }),
-            )
-          ],
-        )
-      ],
-    );
+    return ProductCardWidget(products[index], index);
   }
 
   Widget _buildProductList() {
@@ -43,6 +21,7 @@ class Products extends StatelessWidget {
     Widget productCard;
     if (products.length > 0) {
       productCard = ListView.builder(
+        // itemBuilder: (BuildContext context, int index) => ProductCardWidget(products[index], index),
         itemBuilder: _buildProductItem,
         itemCount: products.length,
       );
