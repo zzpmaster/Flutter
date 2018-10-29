@@ -8,9 +8,12 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
-  String _emailValue;
-  String _passwrodValue;
-  bool _acceptTerms = false;
+  final Map<String, dynamic> _formData = {
+    'emial': null,
+    'password': null,
+    'acceptTerms': false
+  };
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DecorationImage _buildBackgroundImage() {
     return DecorationImage(
@@ -24,7 +27,7 @@ class _AuthPage extends State<AuthPage> {
   }
 
   Widget _buildEmailTextField() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
         labelText: 'Email',
         // TextField 增加颜色
@@ -32,36 +35,42 @@ class _AuthPage extends State<AuthPage> {
         // fillColor: Colors.white,
       ),
       keyboardType: TextInputType.emailAddress,
-      onChanged: (String value) {
-        setState(() {
-          _emailValue = value;
-        });
+      onSaved: (String value) {
+        _formData['email'] = value;
+      },
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please enter a valid email';
+        }
       },
     );
   }
 
   Widget _buildPasswordTextField() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
         labelText: 'Password',
         // hintText: 'Enter Password',
       ),
       // 如果是密码，需要使用这个属性，隐藏输入文字
       obscureText: true,
-      onChanged: (String value) {
-        setState(() {
-          _passwrodValue = value;
-        });
+      onSaved: (String value) {
+        _formData['password'] = value;
+      },
+      validator: (String value) {
+        if (value.isEmpty || value.length < 6) {
+          return 'Password is invalid.';
+        }
       },
     );
   }
 
   Widget _buildAcceptSwitch() {
     return SwitchListTile(
-      value: _acceptTerms, // 默认值是选中或未选中
+      value: _formData['acceptTerms'], // 默认值是选中或未选中
       onChanged: (bool value) {
         setState(() {
-          _acceptTerms = value;
+          _formData['acceptTerms'] = value;
         });
       },
       title: Text('Accept Terms'),
@@ -80,30 +89,40 @@ class _AuthPage extends State<AuthPage> {
           // 使input屏幕居中
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  _buildEmailTextField(),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  _buildPasswordTextField(),
-                  // 选择
-                  _buildAcceptSwitch(),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  RaisedButton(
-                    child: Text('LOGIN'),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      // 替换当前的路由
-                      // Navigator.pushReplacement(context,
-                      //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-                      Navigator.pushReplacementNamed(context, '/products');
-                    },
-                  )
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    _buildEmailTextField(),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _buildPasswordTextField(),
+                    // 选择
+                    _buildAcceptSwitch(),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    RaisedButton(
+                      child: Text('LOGIN'),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        if (_formKey.currentState.validate() ||
+                            !_formData['acceptTerms']) {
+                          return;
+                        }
+                        // save 后，会执行每一个 TextFormField的save.
+                        _formKey.currentState.save();
+
+                        // 替换当前的路由
+                        // Navigator.pushReplacement(context,
+                        //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+                        Navigator.pushReplacementNamed(context, '/products');
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),
