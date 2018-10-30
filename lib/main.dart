@@ -35,6 +35,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _updateProduct(int index, Map<String, dynamic> product) {
+    setState(() {
+      _products[index] = product;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // this is core root widget.
@@ -44,7 +50,8 @@ class _MyAppState extends State<MyApp> {
         // 夜晚百白天模式
         brightness: Brightness.light,
         primarySwatch: Colors.pink,
-        fontFamily: 'Oswald'
+        // 设置全局字体
+        // fontFamily: 'Oswald'
       ),
       // home: AuthPage(),
       // add named routes
@@ -54,7 +61,10 @@ class _MyAppState extends State<MyApp> {
         '/': (BuildContext context) => AuthPage(),
         'products': (BuildContext context) => HomePage(_products),
         '/admin': (BuildContext context) => ProductsAdmin(
-            addProduct: _addProduct, deleteProduct: _deleteProduct)
+            addProduct: _addProduct,
+            deleteProduct: _deleteProduct,
+            products: _products,
+            updateProduct: _updateProduct)
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
