@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/home.dart';
+
 class AuthPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -108,17 +110,18 @@ class _AuthPage extends State<AuthPage> {
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       onPressed: () {
-                        if (_formKey.currentState.validate() ||
+                        if (!_formKey.currentState.validate() ||
                             !_formData['acceptTerms']) {
+                              print('Form error');
                           return;
                         }
                         // save 后，会执行每一个 TextFormField的save.
                         _formKey.currentState.save();
 
                         // 替换当前的路由
-                        // Navigator.pushReplacement(context,
-                        //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-                        Navigator.pushReplacementNamed(context, '/products');
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+                        // Navigator.pushReplacementNamed(context, '/products');
                       },
                     )
                   ],

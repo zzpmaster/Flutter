@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import './product_card_widget.dart';
+import '../../scoped-models/products.dart';
+import '../../models/product.dart';
 
 class Products extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
+  // final List<Product> products;
 
   // 可选参数, 默认是需要添加const
   // 如果不传递值，那么之后将无法修改products
   // Products([this.products = const []]);
-  Products(this.products);
+  // Products(this.products);
 
-  Widget _buildProductItem(BuildContext context, int index) {
-    return ProductCardWidget(products[index], index);
-  }
+  // Widget _buildProductItem(BuildContext context, int index) {
+  //   return ProductCardWidget(products[index], index);
+  // }
 
-  Widget _buildProductList() {
+  Widget _buildProductList(List<Product> products) {
     // 4.
     // 用更好的方式来替换 方式3的判断
     // Alternative Approaches to Render Content Conditionally
     Widget productCard;
     if (products.length > 0) {
       productCard = ListView.builder(
-        // itemBuilder: (BuildContext context, int index) => ProductCardWidget(products[index], index),
-        itemBuilder: _buildProductItem,
+        itemBuilder: (BuildContext context, int index) =>
+            ProductCardWidget(products[index], index),
+        // itemBuilder: _buildProductItem,
         itemCount: products.length,
       );
     } else {
@@ -39,7 +43,12 @@ class Products extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //4.
-    return _buildProductList();
+    // 147 添加scoped model
+    return ScopedModelDescendant<ProductsModel>(
+      builder: (BuildContext context, Widget child, ProductsModel model) {
+        return _buildProductList(model.dispalyProducts);
+      },
+    );
 
     // 2.
     // ListView.builder 可以优化list性能，将屏幕外的元素释放

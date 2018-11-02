@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 import '../ui_elements/title_defult.dart';
 
-class ProductPage extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final double price;
-  final String description;
+import '../models/product.dart';
+import '../scoped-models/products.dart';
 
-  ProductPage(this.title, this.imageUrl, this.price, this.description);
+class ProductPage extends StatelessWidget {
+  final int productIndex;
+
+  ProductPage(this.productIndex);
 
   _showWarningDialog(BuildContext context) {
     showDialog(
@@ -36,7 +38,7 @@ class ProductPage extends StatelessWidget {
         });
   }
 
-  Widget _buildAddressPriceRow() {
+  Widget _buildAddressPriceRow(double price) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -76,31 +78,36 @@ class ProductPage extends StatelessWidget {
         // 注意，不可以设置true，原因已经pop到root页面中。设置true相当于又pop一次
         return Future.value(false);
       },
-      child: Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: Center(
-          child: Column(
-              // 垂直居中
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // 水平居中
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(imageUrl),
-                Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: TitleDefault(title),
-                ),
-                _buildAddressPriceRow(),
-                Container(
-                  padding: EdgeInsets.all(10.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    description,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ]),
-        ),
+      child: ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+          final Product prodcut = model.products[productIndex];
+          return Scaffold(
+            appBar: AppBar(title: Text(prodcut.title)),
+            body: Center(
+              child: Column(
+                  // 垂直居中
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // 水平居中
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(prodcut.image),
+                    Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: TitleDefault(prodcut.title),
+                    ),
+                    _buildAddressPriceRow(prodcut.price),
+                    Container(
+                      padding: EdgeInsets.all(10.0),
+                      alignment: Alignment.center,
+                      child: Text(
+                        prodcut.description,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ]),
+            ),
+          );
+        },
       ),
     );
   }
